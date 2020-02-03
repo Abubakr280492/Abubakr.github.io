@@ -1,1 +1,133 @@
-Hello World
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <!-- What should a Junior Developer Resume contain?
+
+! Important: write your Resume in English if you can, if possible
+
+1. First Name, Last Name (real ones)
+2. Contact Info (add several ways to contact you)
+3. Summary (your goal, wishes, reveal what is important for you, what do you want and why.
+Some kind of self-presentation. In case of lack of experience  Junior Developer sells his/her potential, his/her passion and ability to learn fast. You shouldn't think that everybody is going to teach you when you come to the workplace . Rather being a Junior means always
+learning new things from everywhere etc.).
+4. Skills (e.g. programming languages, frameworks, methodologies, version control, tools etc.)
+5. Code examples (LATEST)
+6. Experience (for a Junior Dev it means all kinds of experience: coding tests, projects from courses,
+freelance projects - wherever they had the opportunity to demonstrate skills they have.
+Also it would be awesome if you add links to source code)
+7. Education (including courses, seminars, lectures, online learning)
+8. English (elaborate on what kind of practice you had, if any, how long it lasted and so on)
+ -->
+
+<h1>Abubakr Abdullaev(Abdi)</h1>
+<h2>Contact info</h2>
+<p> Contact: +15132755276</p>
+<h2>Summary</h2>
+<p>I aim to be full stuck developer and be one of the great programmers in the world</p>
+<h2>Skills</h2>
+<ul>
+    <li>C++</li>
+    <li>HTML</li>
+    <li>CSS</li>
+    <li>JavaScript</li>
+
+</ul>
+<h2>Experience</h2>
+    <p>Junior Developer kinda </p>
+<h2>Code examples</h2>
+    <code>
+
+
+
+
+
+        import React from 'react';
+        import './App.css';
+        import {Switch, Route, Redirect} from 'react-router-dom';
+        import {connect} from 'react-redux';
+        
+         
+        import Homepage from './pages/homepage/homepage.component';
+        import ShopPage from './pages/shop/shop.component';
+        import Header from './components/header/header.component';
+        import SignInAndSignUpPage from './pages/sign-in-sign-up/sign-in-and-sign-up.component';
+        import {auth, createUserProfileDocument} from './firebase/firebase.utils';
+        import {setCurrentUser} from './redux/user/user.actions'; 
+        
+        //import {createStructuredSelector} from 'reselect';
+        import {selectCurrentUser} from './redux/user/user.selector';
+        
+        import CheckoutPage from './pages/checkout/checkout.component';
+        
+        class App extends React.Component {
+        
+          unsubscribeFromAuth = null;
+        
+          componentDidMount (){ 
+           
+            const {setCurrentUser}= this.props;
+        
+            this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth =>{
+              if(userAuth) {
+                const userRef = await createUserProfileDocument(userAuth);
+        
+                if(userRef) {
+                 userRef.onSnapshot(snapShot => {
+                  setCurrentUser({
+                        id: snapShot.id,
+                        ...snapShot.data()
+                      });
+                  });
+                } else {
+                  alert('There cridential error, please fix it')
+                }
+              }
+        
+              setCurrentUser(userAuth);
+            });  
+          }
+        
+          componentWillUnmount(){
+            this.unsubscribeFromAuth();
+          }
+          //gonna send to the dom 
+          render() { 
+            return (
+        
+            );
+          }
+        }
+        
+        //method to combine with redux state
+        const mapStateToProps = state => ({
+          currentUser: selectCurrentUser(state)
+        });
+         
+        //dispatches actions
+        const mapDispatchToProps = dispatch => ({
+        setCurrentUser: user => dispatch(setCurrentUser(user))
+        });
+        
+        
+        export default connect(mapStateToProps, mapDispatchToProps )(App);
+        </code>
+
+<h2>Education</h2>
+        <p>Inha University in Tashkent</p>
+<p>Good at <br>
+    - C++ , Java (Object Oriented Programming)<br>
+    -Internet Programming (HTML ,CSS, JavaScript,Laravel)<br>
+    - Calculus,Discrete math, Computer Architecture,<br>
+    - Computer Algorithm</p>
+
+    <h2>English</h2>
+    <p>IELTS 7.0 </p>
+</body>
+</html>
